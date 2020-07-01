@@ -14,7 +14,7 @@ namespace AapiPeliculas.Repositorios.IRepository
         bool ExistCategoria(int IdCategoria);
         bool CrearCategoria(Categoria categoria);
         bool ActualizarCategoria(Categoria categoria);
-        bool EliminarCategoria(int IdCategoria);
+        bool EliminarCategoria(Categoria categoria);
         bool Guardar();
     }
 }
