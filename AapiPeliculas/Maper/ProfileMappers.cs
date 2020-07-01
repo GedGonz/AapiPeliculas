@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace AapiPeliculas.Maper
 {
-    public class Mapper:Profile
+    public class ProfileMappers:Profile
     {
-        public Mapper()
+        public ProfileMappers()
         {
             CreateMap<Categoria, Categoriadto>().ReverseMap();
         }

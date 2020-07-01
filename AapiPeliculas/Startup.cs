@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AapiPeliculas.Data;
+using AapiPeliculas.Maper;
 using AapiPeliculas.Repositorios;
 using AapiPeliculas.Repositorios.IRepository;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,6 +36,7 @@ namespace AapiPeliculas
             );
 
             services.AddScoped<ICategoriaRepositorio, CategoriaRepositorio>();
+            services.AddAutoMapper(typeof(ProfileMappers));
             //services.AddDbContext<AplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
             services.AddControllers();
         }
