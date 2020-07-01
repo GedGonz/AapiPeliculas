@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AapiPeliculas.Models;
 using AapiPeliculas.Models.DTOS;
 using AapiPeliculas.Repositorios.IRepository;
 using AutoMapper;
@@ -45,6 +46,33 @@ namespace AapiPeliculas.Controllers
             var categoriaDTO = mapper.Map<Categoriadto>(categoria);
 
             return Ok(categoriaDTO);
+        }
+
+        [HttpPost]
+        public IActionResult CrearCtaegoria([FromBody] Categoriadto categoriadto) 
+        {
+            if (categoriadto==null) 
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (_categoriaRepositorio.ExistCategoria(categoriadto.Nombre)) 
+            {
+                ModelState.AddModelError("", "La Categoria ya existe");
+
+                return StatusCode(404,ModelState);
+            }
+            var categoria = mapper.Map<Categoria>(categoriadto);
+
+            if (!_categoriaRepositorio.CrearCategoria(categoria)) 
+            {
+                ModelState.AddModelError("", $"Algo salio mal al crear el registro{categoria.Nombre}");
+
+                return StatusCode(500, ModelState);
+            }
+
+            return CreatedAtRoute("GetCategoria", new { IdCategoria = categoria.Id},categoria);
+
         }
 
 
