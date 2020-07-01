@@ -12,7 +12,7 @@ namespace AapiPeliculas.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriasController : ControllerBase
+    public class CategoriasController : Controller
     {
         private readonly ICategoriaRepositorio _categoriaRepositorio;
         private readonly IMapper mapper;
@@ -30,6 +30,21 @@ namespace AapiPeliculas.Controllers
             var listaCategoriasdto = mapper.Map<List<Categoriadto>>(listaCategorias);
 
             return Ok(listaCategoriasdto);
+        }
+
+        [HttpGet("{IdCategoria:int}",Name = "GetCategoria")]
+        public IActionResult GetCategoria(int IdCategoria) 
+        {
+            var categoria = _categoriaRepositorio.GetCategoria(IdCategoria);
+
+            if (categoria==null) 
+            {
+                return NotFound();
+            }
+
+            var categoriaDTO = mapper.Map<Categoriadto>(categoria);
+
+            return Ok(categoriaDTO);
         }
 
 
