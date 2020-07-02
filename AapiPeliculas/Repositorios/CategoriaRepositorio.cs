@@ -123,7 +123,7 @@ namespace AapiPeliculas.Repositorios
 
         public bool Guardar()
         {
-            var retorno = false;
+            bool retorno;
             try
             {
                 retorno=_db.SaveChanges()>=0;
