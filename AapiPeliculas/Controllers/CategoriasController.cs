@@ -97,5 +97,32 @@ namespace AapiPeliculas.Controllers
         }
 
 
+        [HttpDelete("{IdCategoria:int}", Name = "EliminarCategoria")]
+        public IActionResult EliminarCategoria(int IdCategoria)
+        {
+
+
+           //var categoria = mapper.Map<Categoria>(categoriadto);
+
+            if (!_categoriaRepositorio.ExistCategoria(IdCategoria))
+            {
+                return NotFound();
+            }
+
+            var categoria = _categoriaRepositorio.GetCategoria(IdCategoria);
+
+
+
+            if (!_categoriaRepositorio.EliminarCategoria(categoria))
+            {
+                ModelState.AddModelError("", $"Algo salio mal al eliminar el registro {categoria.Nombre}");
+
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
+
     }
 }
