@@ -18,20 +18,8 @@ namespace AapiPeliculas.Data
 
 
         public DbSet<Categoria> Categoria { get; set; }
+        public DbSet<Pelicula> Pelicula { get; set; }
 
     }
 
-    //public class AplicationFactory : IDesignTimeDbContextFactory<AplicationDbContext>
-    //{
-
-    //    public AplicationDbContext CreateDbContext(string[] args)
-    //    {
-    //        var optionsBuilder = new DbContextOptionsBuilder<AplicationDbContext>();
-    //        optionsBuilder.UseSqlServer("Server=GEDGONZ\\SQLEXPRESS;Database=PeliculasApiv1; Integrated Security=True");
-
-    //        return new AplicationDbContext(optionsBuilder.Options);
-    //    }
-
-
-    //}
 }
