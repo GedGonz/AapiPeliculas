@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace AapiPeliculas.Repositorios
 {
-    public class PeliculaRepositoriocs : IPeliculaRepositoriocs
+    public class PeliculaRepositorio : IPeliculaRepositorio
     {
         private readonly AplicationDbContext _db;
 
-        public PeliculaRepositoriocs(AplicationDbContext _db)
+        public PeliculaRepositorio(AplicationDbContext _db)
         {
             this._db = _db;
         }

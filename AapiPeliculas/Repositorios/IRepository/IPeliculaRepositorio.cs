@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AapiPeliculas.Repositorios.IRepository
 {
-    public interface IPeliculaRepositoriocs
+    public interface IPeliculaRepositorio
     {
         ICollection<Pelicula> GetPeliculas();
         ICollection<Pelicula> GetPeliculasEnCategoria(int IdCategoria);
