@@ -66,13 +66,34 @@ namespace AapiPeliculas.Controllers
 
             if (!_categoriaRepositorio.CrearCategoria(categoria)) 
             {
-                ModelState.AddModelError("", $"Algo salio mal al crear el registro{categoria.Nombre}");
+                ModelState.AddModelError("", $"Algo salio mal al crear el registro {categoria.Nombre}");
 
                 return StatusCode(500, ModelState);
             }
 
             return CreatedAtRoute("GetCategoria", new { IdCategoria = categoria.Id},categoria);
 
+        }
+
+        [HttpPatch("{IdCategoria:int}",Name = "ActualizarCategoria")]
+        public IActionResult ActualizarCategoria(int IdCategoria, [FromBody] Categoriadto categoriadto) 
+        {
+
+            if (categoriadto==null || IdCategoria!=categoriadto.Id)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var categoria = mapper.Map<Categoria>(categoriadto);
+
+            if (!_categoriaRepositorio.ActualizarCategoria(categoria)) 
+            {
+                ModelState.AddModelError("", $"Algo salio mal al actualizar el registro {categoria.Nombre}");
+
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
         }
 
 
