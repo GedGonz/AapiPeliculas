@@ -13,6 +13,10 @@ namespace AapiPeliculas.Maper
         public ProfileMappers()
         {
             CreateMap<Categoria, Categoriadto>().ReverseMap();
+
+            CreateMap<Pelicula, Peliculadto>().ReverseMap();
+            CreateMap<Pelicula, PeliculaCreatedto>().ReverseMap();
+            CreateMap<Pelicula, PeliculaUpdatedto>().ReverseMap();
         }
     }
 }

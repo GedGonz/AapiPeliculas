@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AapiPeliculas.Models;
 using AapiPeliculas.Models.DTOS;
 using AapiPeliculas.Repositorios.IRepository;
 using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,10 +20,12 @@ namespace AapiPeliculas.Controllers
 
         private readonly IPeliculaRepositorio _PeliculaRepositorio;
         private readonly IMapper mapper;
-        public PeliculasController(IPeliculaRepositorio _PeliculaRepositorio, IMapper mapper)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public PeliculasController(IPeliculaRepositorio _PeliculaRepositorio, IMapper mapper, IWebHostEnvironment _webHostEnvironment)
         {
             this._PeliculaRepositorio = _PeliculaRepositorio;
             this.mapper = mapper;
+            this._webHostEnvironment = _webHostEnvironment;
         }
 
         [HttpGet]
@@ -50,7 +54,7 @@ namespace AapiPeliculas.Controllers
         }
 
         [HttpPost]
-        public IActionResult CrearCtaegoria([FromBody] Peliculadto peliculadto)
+        public IActionResult CrearPelicula([FromForm] PeliculaCreatedto peliculadto)
         {
             if (peliculadto == null)
             {
@@ -63,6 +67,27 @@ namespace AapiPeliculas.Controllers
 
                 return StatusCode(404, ModelState);
             }
+
+            /*Subida de Archivos*/
+            var archivo = peliculadto.Foto;
+            var rutaPrincipal = _webHostEnvironment.WebRootPath;
+            var archivos = HttpContext.Request.Form.Files;
+
+            if (archivo.Length>0)
+            {
+                //Nueva Imagen
+                var nombreFoto = Guid.NewGuid().ToString();
+                var rutaCompleta = Path.Combine(rutaPrincipal, @"fotos");
+                var extension = Path.GetExtension(archivos[0].FileName);
+
+
+                using (var fileStrems = new FileStream(Path.Combine(rutaCompleta, nombreFoto + extension), FileMode.Create))
+                {
+                    archivos[0].CopyTo(fileStrems);
+                }
+                peliculadto.RutaImagen = @"\foto\"+nombreFoto+extension;
+            }
+
             var pelicula = mapper.Map<Pelicula>(peliculadto);
 
             if (!_PeliculaRepositorio.CrearPelicula(pelicula))
