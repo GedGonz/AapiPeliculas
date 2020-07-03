@@ -53,6 +53,21 @@ namespace AapiPeliculas.Controllers
             return Ok(peliculadto);
         }
 
+        [HttpGet("GetPeliculasEnCategorias/{IdCategoria:int}")]
+        public IActionResult GetPeliculasEnCategorias(int IdCategoria)
+        {
+            var listaPeliculas = _PeliculaRepositorio.GetPeliculasEnCategoria(IdCategoria);
+
+            if (listaPeliculas==null) 
+            {
+                return NotFound();
+            }
+
+            var listapeliculasdto = mapper.Map<List<Peliculadto>>(listaPeliculas);
+
+            return Ok(listapeliculasdto);
+        }
+
         [HttpPost]
         public IActionResult CrearPelicula([FromForm] PeliculaCreatedto peliculadto)
         {
