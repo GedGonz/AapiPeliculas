@@ -68,6 +68,26 @@ namespace AapiPeliculas.Controllers
             return Ok(listapeliculasdto);
         }
 
+        [HttpGet("Buscar")]
+        public IActionResult Buscar(string nombre) 
+        {
+            try
+            {
+                var peliculas = _PeliculaRepositorio.BuscarPelicula(nombre);
+                
+                if (peliculas.Any()) 
+                {
+                    var peliculasdto = mapper.Map<List<Peliculadto>>(peliculas);
+                    return Ok(peliculasdto);
+                }
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,"Error recuperando datos de la aplicación");
+            }
+        }
+
         [HttpPost]
         public IActionResult CrearPelicula([FromForm] PeliculaCreatedto peliculadto)
         {
@@ -141,8 +161,6 @@ namespace AapiPeliculas.Controllers
         [HttpDelete("{IdPelicula:int}", Name = "EliminarPelicula")]
         public IActionResult EliminarPelicula(int IdPelicula)
         {
-
-
 
             if (!_PeliculaRepositorio.ExistPelicula(IdPelicula))
             {
