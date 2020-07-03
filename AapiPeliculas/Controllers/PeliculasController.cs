@@ -137,7 +137,7 @@ namespace AapiPeliculas.Controllers
         }
 
         [HttpPatch("{IdPelicula:int}", Name = "ActualizarPelicula")]
-        public IActionResult ActualizarPelicula(int IdPelicula, [FromBody] Peliculadto peliculadto)
+        public IActionResult ActualizarPelicula(int IdPelicula, [FromBody] PeliculaUpdatedto peliculadto)
         {
 
             if (peliculadto == null || IdPelicula != peliculadto.Id)

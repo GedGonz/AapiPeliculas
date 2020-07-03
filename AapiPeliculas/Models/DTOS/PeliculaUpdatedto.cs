@@ -12,8 +12,6 @@ namespace AapiPeliculas.Models.DTOS
         public int Id { get; set; }
         [Required(ErrorMessage = "El nombre es requerido")]
         public string Nombre { get; set; }
-        [Required(ErrorMessage = "La Rutaimagen es requerido")]
-        public string RutaImagen { get; set; }
         [Required(ErrorMessage = "La Descripcion es requerido")]
         public string Descripcion { get; set; }
         [Required(ErrorMessage = "La Duracion es requerido")]
