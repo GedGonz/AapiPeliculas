@@ -43,7 +43,7 @@ namespace AapiPeliculas
             services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 
 
-            /*MidleWare Token*/
+            /*Configuración Token*/
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(option =>
                 {
@@ -57,7 +57,19 @@ namespace AapiPeliculas
                 });
 
             services.AddAutoMapper(typeof(ProfileMappers));
-            //services.AddDbContext<AplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
+
+            //Configuración de la documentacion con Swagger
+
+            services.AddSwaggerGen(option=> 
+            {
+                option.SwaggerDoc("ApiPeliculas", new Microsoft.OpenApi.Models.OpenApiInfo()
+                {
+                    Title = "API Películas",
+                    Version = "1",
+
+                });
+            });
+
             services.AddControllers();
         }
 
@@ -70,6 +82,9 @@ namespace AapiPeliculas
             }
 
             app.UseHttpsRedirection();
+
+            //Middleware swagger
+            app.UseSwagger();
 
             app.UseRouting();
 
