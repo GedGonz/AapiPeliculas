@@ -98,23 +98,45 @@ namespace AapiPeliculas.Repositorios
             return user;
         }
 
+
+        public Usuario Registro(Usuario usuario, string password)
+        {
+            byte[] passwordHash, passwordSalt;
+
+            crearPasswordHash(password, out passwordHash, out passwordSalt);
+
+            usuario.PasswordHash = passwordHash;
+            usuario.PasswordSalt = passwordSalt;
+
+            _db.Usuario.Add(usuario);
+
+            Guardar();
+
+            return usuario;
+        }
+
+        private void crearPasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+
+            }
+        }
+
         private bool verificaPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt)) 
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
             {
                 var hashCmputado = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
 
-                for (int i=0; i< hashCmputado.Length; i++) 
+                for (int i = 0; i < hashCmputado.Length; i++)
                 {
                     if (hashCmputado[i] != passwordHash[i]) return false;
                 }
                 return true;
             }
-        }
-
-        public Usuario Registro(Usuario usuario, string password)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -17,6 +17,9 @@ namespace AapiPeliculas.Maper
             CreateMap<Pelicula, Peliculadto>().ReverseMap();
             CreateMap<Pelicula, PeliculaCreatedto>().ReverseMap();
             CreateMap<Pelicula, PeliculaUpdatedto>().ReverseMap();
+            CreateMap<Usuario, Usuariodto>().ReverseMap();
+            CreateMap<Usuario, UsuarioAuthdto>().ReverseMap();
+            CreateMap<Usuario, UsuarioAuthLogindto>().ReverseMap();
         }
     }
 }

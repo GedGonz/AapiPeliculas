@@ -37,6 +37,8 @@ namespace AapiPeliculas
 
             services.AddScoped<ICategoriaRepositorio, CategoriaRepositorio>();
             services.AddScoped<IPeliculaRepositorio, PeliculaRepositorio>();
+            services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+
             services.AddAutoMapper(typeof(ProfileMappers));
             //services.AddDbContext<AplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
             services.AddControllers();
