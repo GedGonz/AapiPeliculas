@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AapiPeliculas.Models;
 using AapiPeliculas.Models.DTOS;
 using AapiPeliculas.Repositorios.IRepository;
 using AutoMapper;
@@ -47,5 +48,20 @@ namespace AapiPeliculas.Controllers
             return Ok(usuarioDTO);
         }
 
+        [HttpPost("Registro")]
+        public IActionResult Registro(UsuarioAuthdto usuarioAuthdto) 
+        {
+
+            if (_usuarioRepositorio.ExistUsuario(usuarioAuthdto.Usuario.ToLower())) 
+            {
+                return BadRequest("El usuario ya existe");
+            }
+
+            var usuarioACrear = mapper.Map<Usuario>(usuarioAuthdto);
+
+            var usuarioCreado = _usuarioRepositorio.Registro(usuarioACrear, usuarioAuthdto.Passwrod);
+
+            return Ok(usuarioCreado);
+        }
     }
 }
