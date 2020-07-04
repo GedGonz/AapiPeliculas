@@ -82,7 +82,34 @@ namespace AapiPeliculas.Repositorios
 
         public Usuario Login(string usuario, string password)
         {
-            throw new NotImplementedException();
+            var user = _db.Usuario.FirstOrDefault(x=>x.UsuarioA == usuario);
+
+            if (user==null) 
+            {
+                return null;
+            }
+
+            if (!verificaPasswordHash(password,user.PasswordHash,user.PasswordSalt)) 
+            {
+                return null;
+            }
+
+
+            return user;
+        }
+
+        private bool verificaPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt)) 
+            {
+                var hashCmputado = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+
+                for (int i=0; i< hashCmputado.Length; i++) 
+                {
+                    if (hashCmputado[i] != passwordHash[i]) return false;
+                }
+                return true;
+            }
         }
 
         public Usuario Registro(Usuario usuario, string password)
