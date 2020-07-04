@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using AapiPeliculas.Models;
 using AapiPeliculas.Models.DTOS;
@@ -8,6 +11,8 @@ using AapiPeliculas.Repositorios.IRepository;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AapiPeliculas.Controllers
 {
@@ -17,10 +22,12 @@ namespace AapiPeliculas.Controllers
     {
         private readonly IUsuarioRepositorio _usuarioRepositorio;
         private readonly IMapper mapper;
-        public UsuarioController(IUsuarioRepositorio _usuarioRepositorio, IMapper mapper)
+        private readonly IConfiguration configuration;
+        public UsuarioController(IUsuarioRepositorio _usuarioRepositorio, IMapper mapper, IConfiguration configuration)
         {
             this._usuarioRepositorio = _usuarioRepositorio;
             this.mapper = mapper;
+            this.configuration = configuration;
         }
 
         [HttpGet]
@@ -62,6 +69,47 @@ namespace AapiPeliculas.Controllers
             var usuarioCreado = _usuarioRepositorio.Registro(usuarioACrear, usuarioAuthdto.Passwrod);
 
             return Ok(usuarioCreado);
+        }
+
+        [HttpPost("Login")]
+        public IActionResult Login(UsuarioAuthLogindto usuarioAuthdLogindto)
+        {
+
+            var usuarioLogin = _usuarioRepositorio.Login(usuarioAuthdLogindto.Usuario, usuarioAuthdLogindto.Passwrod);
+
+            if (usuarioLogin==null) 
+            {
+                return Unauthorized();
+            }
+
+            var claims = new[] 
+            {
+                new Claim(ClaimTypes.NameIdentifier,usuarioLogin.Id.ToString()),
+                new Claim(ClaimTypes.Name,usuarioLogin.UsuarioA.ToString())
+            };
+
+            //Gereracion de Token
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("AppSettings:Token").Value));
+
+            var credenciales = new SigningCredentials(key,SecurityAlgorithms.HmacSha512Signature);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = credenciales
+            };
+
+
+            var tokenhandler = new JwtSecurityTokenHandler();
+            var token = tokenhandler.CreateToken(tokenDescriptor);
+
+            return Ok(new 
+            {
+                token = tokenhandler.WriteToken(token)
+            });
+
         }
     }
 }
