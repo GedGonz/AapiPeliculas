@@ -13,6 +13,8 @@ namespace AapiPeliculas.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class CategoriasController : Controller
     {
         private readonly ICategoriaRepositorio _categoriaRepositorio;
@@ -27,6 +29,8 @@ namespace AapiPeliculas.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(200,Type = typeof(List<Categoriadto>))]
+        [ProducesResponseType(400)]
         public IActionResult GetCategorias() 
         {
             var listaCategorias = _categoriaRepositorio.GetCategorias();
@@ -42,6 +46,9 @@ namespace AapiPeliculas.Controllers
         /// <param name="IdCategoria">Id de la categoria</param>
         /// <returns></returns>
         [HttpGet("{IdCategoria:int}",Name = "GetCategoria")]
+        [ProducesResponseType(200, Type = typeof(Categoriadto))]
+        [ProducesResponseType(404)]
+        [ProducesDefaultResponseType]
         public IActionResult GetCategoria(int IdCategoria) 
         {
             var categoria = _categoriaRepositorio.GetCategoria(IdCategoria);
@@ -62,6 +69,10 @@ namespace AapiPeliculas.Controllers
         /// <param name="categoriadto"></param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(201, Type = typeof(Categoriadto))]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult CrearCtaegoria([FromBody] Categoriadto categoriadto) 
         {
             if (categoriadto==null) 
@@ -93,7 +104,11 @@ namespace AapiPeliculas.Controllers
         /// <param name="IdCategoria"></param>
         /// <param name="categoriadto"></param>
         /// <returns></returns>
+        
         [HttpPatch("{IdCategoria:int}",Name = "ActualizarCategoria")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult ActualizarCategoria(int IdCategoria, [FromBody] Categoriadto categoriadto) 
         {
 
@@ -120,6 +135,11 @@ namespace AapiPeliculas.Controllers
         /// <param name="IdCategoria">Id de la Categoria</param>
         /// <returns></returns>
         [HttpDelete("{IdCategoria:int}", Name = "EliminarCategoria")]
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult EliminarCategoria(int IdCategoria)
         {
 
