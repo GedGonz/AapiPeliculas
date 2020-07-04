@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace AapiPeliculas.Models
 {
+
     public class Categoria
+
     {
         [Key]
         public int Id { get; set; }
@@ -14,4 +16,5 @@ namespace AapiPeliculas.Models
         public DateTime FechaCreacion { get; set; }
 
     }
+
 }
