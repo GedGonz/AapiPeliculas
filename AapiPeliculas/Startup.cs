@@ -68,6 +68,18 @@ namespace AapiPeliculas
                 {
                     Title = "API Películas",
                     Version = "1",
+                    Description = "Backend películas",
+                    Contact = new Microsoft.OpenApi.Models.OpenApiContact() 
+                    {
+                        Email ="gedgonz7@gmail.com",
+                        Name = "Gerald González",
+                        Url = new Uri("https://gedgonz.github.io/CV")
+                    },
+                    License = new Microsoft.OpenApi.Models.OpenApiLicense() 
+                    {
+                        Name = "MIT License",
+                        Url = new Uri("https://en.wikipedia.org/wiki/MIT_License")
+                    }
 
                 });
 
