@@ -64,9 +64,9 @@ namespace AapiPeliculas
 
             services.AddSwaggerGen(option=> 
             {
-                option.SwaggerDoc("ApiPeliculas", new Microsoft.OpenApi.Models.OpenApiInfo()
+                option.SwaggerDoc("ApiPeliculasCategorias", new Microsoft.OpenApi.Models.OpenApiInfo()
                 {
-                    Title = "API Películas",
+                    Title = "API Categorías Películas",
                     Version = "1",
                     Description = "Backend películas",
                     Contact = new Microsoft.OpenApi.Models.OpenApiContact() 
@@ -82,6 +82,45 @@ namespace AapiPeliculas
                     }
 
                 });
+
+                option.SwaggerDoc("ApiPeliculas", new Microsoft.OpenApi.Models.OpenApiInfo()
+                {
+                    Title = "API Películas",
+                    Version = "1",
+                    Description = "Backend películas",
+                    Contact = new Microsoft.OpenApi.Models.OpenApiContact()
+                    {
+                        Email = "gedgonz7@gmail.com",
+                        Name = "Gerald González",
+                        Url = new Uri("https://gedgonz.github.io/CV")
+                    },
+                    License = new Microsoft.OpenApi.Models.OpenApiLicense()
+                    {
+                        Name = "MIT License",
+                        Url = new Uri("https://en.wikipedia.org/wiki/MIT_License")
+                    }
+
+                });
+
+                option.SwaggerDoc("ApiPeliculasUsuarios", new Microsoft.OpenApi.Models.OpenApiInfo()
+                {
+                    Title = "API Usuarios Películas ",
+                    Version = "1",
+                    Description = "Backend películas",
+                    Contact = new Microsoft.OpenApi.Models.OpenApiContact()
+                    {
+                        Email = "gedgonz7@gmail.com",
+                        Name = "Gerald González",
+                        Url = new Uri("https://gedgonz.github.io/CV")
+                    },
+                    License = new Microsoft.OpenApi.Models.OpenApiLicense()
+                    {
+                        Name = "MIT License",
+                        Url = new Uri("https://en.wikipedia.org/wiki/MIT_License")
+                    }
+
+                });
+
 
                 var archivoXMLComentarios = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var rutaApiComentario = Path.Combine(AppContext.BaseDirectory, archivoXMLComentarios);
@@ -106,7 +145,9 @@ namespace AapiPeliculas
             app.UseSwagger();
             app.UseSwaggerUI(options=> 
             {
-                options.SwaggerEndpoint("/swagger/ApiPeliculas/swagger.json", "API Películas");
+                options.SwaggerEndpoint("/swagger/ApiPeliculasCategorias/swagger.json", "Api Peliculas Categorías");
+                options.SwaggerEndpoint("/swagger/ApiPeliculas/swagger.json", "Api Peliculas");
+                options.SwaggerEndpoint("/swagger/ApiPeliculasUsuarios/swagger.json", "Api Peliculas Usuarios");
                 options.RoutePrefix = "";
             });
 

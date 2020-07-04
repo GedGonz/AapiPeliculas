@@ -13,6 +13,7 @@ namespace AapiPeliculas.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "ApiPeliculasCategorias")]
 
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class CategoriasController : Controller
