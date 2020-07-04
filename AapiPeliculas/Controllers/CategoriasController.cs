@@ -22,7 +22,10 @@ namespace AapiPeliculas.Controllers
             this._categoriaRepositorio = _categoriaRepositorio;
             this.mapper = mapper;
         }
-
+        /// <summary>
+        /// Obtener las Categorias
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult GetCategorias() 
         {
@@ -33,6 +36,11 @@ namespace AapiPeliculas.Controllers
             return Ok(listaCategoriasdto);
         }
 
+        /// <summary>
+        /// Obtener una Categoria
+        /// </summary>
+        /// <param name="IdCategoria">Id de la categoria</param>
+        /// <returns></returns>
         [HttpGet("{IdCategoria:int}",Name = "GetCategoria")]
         public IActionResult GetCategoria(int IdCategoria) 
         {
@@ -48,6 +56,11 @@ namespace AapiPeliculas.Controllers
             return Ok(categoriaDTO);
         }
 
+        /// <summary>
+        /// Crear una Categoria
+        /// </summary>
+        /// <param name="categoriadto"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult CrearCtaegoria([FromBody] Categoriadto categoriadto) 
         {
@@ -74,7 +87,12 @@ namespace AapiPeliculas.Controllers
             return CreatedAtRoute("GetCategoria", new { IdCategoria = categoria.Id},categoria);
 
         }
-
+        /// <summary>
+        /// Actualiza una Categoria existente
+        /// </summary>
+        /// <param name="IdCategoria"></param>
+        /// <param name="categoriadto"></param>
+        /// <returns></returns>
         [HttpPatch("{IdCategoria:int}",Name = "ActualizarCategoria")]
         public IActionResult ActualizarCategoria(int IdCategoria, [FromBody] Categoriadto categoriadto) 
         {
@@ -96,7 +114,11 @@ namespace AapiPeliculas.Controllers
             return NoContent();
         }
 
-
+        /// <summary>
+        /// Eliminar una Categoria
+        /// </summary>
+        /// <param name="IdCategoria">Id de la Categoria</param>
+        /// <returns></returns>
         [HttpDelete("{IdCategoria:int}", Name = "EliminarCategoria")]
         public IActionResult EliminarCategoria(int IdCategoria)
         {

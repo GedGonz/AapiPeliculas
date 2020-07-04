@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AapiPeliculas.Data;
@@ -68,6 +70,11 @@ namespace AapiPeliculas
                     Version = "1",
 
                 });
+
+                var archivoXMLComentarios = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var rutaApiComentario = Path.Combine(AppContext.BaseDirectory, archivoXMLComentarios);
+
+                option.IncludeXmlComments(rutaApiComentario);
             });
 
             services.AddControllers();
