@@ -85,6 +85,11 @@ namespace AapiPeliculas
 
             //Middleware swagger
             app.UseSwagger();
+            app.UseSwaggerUI(options=> 
+            {
+                options.SwaggerEndpoint("/swagger/ApiPeliculas/swagger.json", "API Películas");
+                options.RoutePrefix = "";
+            });
 
             app.UseRouting();
 
