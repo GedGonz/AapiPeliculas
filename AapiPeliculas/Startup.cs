@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace AapiPeliculas
 {
@@ -126,9 +127,34 @@ namespace AapiPeliculas
                 var rutaApiComentario = Path.Combine(AppContext.BaseDirectory, archivoXMLComentarios);
 
                 option.IncludeXmlComments(rutaApiComentario);
+
+                //Definición de esquema de seguridad en swagger
+
+                option.AddSecurityDefinition("Bearer",
+                    new OpenApiSecurityScheme
+                    {
+                        Description = "Autenticación JWT (Bearer)",
+                        Type = SecuritySchemeType.Http,
+                        Scheme = "bearer"
+                    });
+
+                option.AddSecurityRequirement(new OpenApiSecurityRequirement
+                { 
+                    {
+                        new OpenApiSecurityScheme()
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Id = "Bearer",
+                                Type= ReferenceType.SecurityScheme
+                            }
+                        }, new List<string>()
+                    }
+                });
             });
 
             services.AddControllers();
+
             //habilitacion de CORS
             services.AddCors();
         }
