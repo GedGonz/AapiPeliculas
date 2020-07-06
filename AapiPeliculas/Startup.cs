@@ -193,9 +193,11 @@ namespace AapiPeliculas
             app.UseSwagger();
             app.UseSwaggerUI(options=> 
             {
-                options.SwaggerEndpoint("/swagger/ApiPeliculasCategorias/swagger.json", "Api Peliculas Categorías");
-                options.SwaggerEndpoint("/swagger/ApiPeliculas/swagger.json", "Api Peliculas");
-                options.SwaggerEndpoint("/swagger/ApiPeliculasUsuarios/swagger.json", "Api Peliculas Usuarios");
+                string swaggerJsonBasePath = string.IsNullOrWhiteSpace(options.RoutePrefix) ? "." : "";
+
+                options.SwaggerEndpoint($"{swaggerJsonBasePath}swagger/ApiPeliculasCategorias/swagger.json", "Api Peliculas Categorías");
+                options.SwaggerEndpoint($"{swaggerJsonBasePath}swagger/ApiPeliculas/swagger.json", "Api Peliculas");
+                options.SwaggerEndpoint($"{swaggerJsonBasePath}swagger/ApiPeliculasUsuarios/swagger.json", "Api Peliculas Usuarios");
                 options.RoutePrefix = "";
             });
 
