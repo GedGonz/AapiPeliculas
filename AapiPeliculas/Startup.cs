@@ -155,6 +155,10 @@ namespace AapiPeliculas
 
             app.UseRouting();
 
+            //MiddleWare para la autenticacion y autorizacion
+
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

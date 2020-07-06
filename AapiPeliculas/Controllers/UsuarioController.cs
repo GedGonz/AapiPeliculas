@@ -9,6 +9,7 @@ using AapiPeliculas.Models;
 using AapiPeliculas.Models.DTOS;
 using AapiPeliculas.Repositorios.IRepository;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace AapiPeliculas.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiPeliculasUsuarios")]
@@ -55,7 +57,7 @@ namespace AapiPeliculas.Controllers
 
             return Ok(usuarioDTO);
         }
-
+        [AllowAnonymous]
         [HttpPost("Registro")]
         public IActionResult Registro(UsuarioAuthdto usuarioAuthdto) 
         {
@@ -72,6 +74,7 @@ namespace AapiPeliculas.Controllers
             return Ok(usuarioCreado);
         }
 
+        [AllowAnonymous]
         [HttpPost("Login")]
         public IActionResult Login(UsuarioAuthLogindto usuarioAuthdLogindto)
         {

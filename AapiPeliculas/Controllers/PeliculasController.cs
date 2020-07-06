@@ -7,12 +7,14 @@ using AapiPeliculas.Models;
 using AapiPeliculas.Models.DTOS;
 using AapiPeliculas.Repositorios.IRepository;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AapiPeliculas.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiPeliculas")]
@@ -29,6 +31,7 @@ namespace AapiPeliculas.Controllers
             this._webHostEnvironment = _webHostEnvironment;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult GetPeliculas()
         {
@@ -39,6 +42,7 @@ namespace AapiPeliculas.Controllers
             return Ok(listaPeliculasdto);
         }
 
+        [AllowAnonymous]
         [HttpGet("{IdPelicula:int}", Name = "GetPelicula")]
         public IActionResult GetPelicula(int IdPelicula)
         {
@@ -54,6 +58,7 @@ namespace AapiPeliculas.Controllers
             return Ok(peliculadto);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetPeliculasEnCategorias/{IdCategoria:int}")]
         public IActionResult GetPeliculasEnCategorias(int IdCategoria)
         {
@@ -69,6 +74,7 @@ namespace AapiPeliculas.Controllers
             return Ok(listapeliculasdto);
         }
 
+        [AllowAnonymous]
         [HttpGet("Buscar")]
         public IActionResult Buscar(string nombre) 
         {
