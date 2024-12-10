@@ -18,12 +18,7 @@ jobs:
           dotnet-version: '3.1'
         
       - name: Build project
-        run: dotnet build AapiPeliculas/AapiPeliculas.csproj --configuration Release --verbosity detailed
-
-      - name: Verify build output
-        run: |
-          echo "Checking directory structure after build..."
-          ls -R
+        run: dotnet build AapiPeliculas/AapiPeliculas.csproj --configuration Release
 
       - name: Create build artifact
         run: |
