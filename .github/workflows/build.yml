@@ -18,13 +18,15 @@ jobs:
           dotnet-version: '3.1'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore AapiPeliculas/AapiPeliculas.sln
         
       - name: Build project
-        run: dotnet build AapiPeliculas/AapiPeliculas.csproj --configuration Release
+        run: dotnet build AapiPeliculas/AapiPeliculas.csproj --configuration Release --verbosity detailed
 
-      - name: List files
-        run: ls -la
+      - name: Verify build output
+        run: |
+          echo "Checking directory structure after build..."
+          ls -R
 
       - name: Create build artifact
         run: |
