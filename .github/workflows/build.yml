@@ -5,6 +5,11 @@ on:
   workflow_dispatch:
 env:
   version-netcore: '3.1'
+
+concurrency:                  #Para evitar que se ejecuten en paralelos mas de un runner y detenerlo si existe un runner nuevo
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-net:
     runs-on: ubuntu-latest
