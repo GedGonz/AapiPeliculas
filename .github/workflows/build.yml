@@ -28,7 +28,7 @@ jobs:
       - name: Create build artifact
         run: |
             mkdir -p build-artifacts
-            cp -r bin/Release/* build-artifacts/
+            cp -r AapiPeliculas/bin/Release/* build-artifacts/
             tar -czf build-artifact.tar.gz -C build-artifacts .
 
       - name: Upload build artifact
