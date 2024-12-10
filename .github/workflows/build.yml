@@ -15,7 +15,7 @@ jobs:
       - name: Set up .net
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: $version-netcore
+          dotnet-version: ${{ env.version-netcore }}
         
       - name: Build project
         run: dotnet build AapiPeliculas/AapiPeliculas.csproj --configuration Release
